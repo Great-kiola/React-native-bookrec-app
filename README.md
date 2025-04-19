@@ -4,8 +4,8 @@
 ### Backend
 dependencies used include
 
-- Express
-- Mongoose - using mongoDb for the database
+- __*Express*__
+- Mongoose - using mongoDb for the database 
 - dotenv - Allow all variables to be accessed from a .env file
 - jsonwebtoken - used for authentication
 - cloudinary - for uploading images
