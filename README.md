@@ -13,3 +13,6 @@ dependencies used include
 - __*bcryptjs*__ - for password hashing
 - __*cors*__ - to get rid of cors errors
 - __*nodemon*__ 
+
+
+- Dicebear.com - for user avatars
