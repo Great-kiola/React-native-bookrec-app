@@ -4,7 +4,7 @@
 ### Backend
 dependencies used include
 
-- __*Express*__
+- *Express*
 - Mongoose - using mongoDb for the database 
 - dotenv - Allow all variables to be accessed from a .env file
 - jsonwebtoken - used for authentication
