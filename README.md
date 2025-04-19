@@ -1,10 +1,11 @@
 # React-native-bookrec-app
 
-## The files is divided into two parts the backend and the frontend
+The files is divided into two parts the backend and the frontend
+
 ### Backend
 dependencies used include
 
-- **Express**
+- __*Express*__
 -  __*Mongoose*__- using mongoDb for the database 
 - __*dotenv*__ - Allow all variables to be accessed from a .env file
 - __*jsonwebtoken*__ - used for authentication
