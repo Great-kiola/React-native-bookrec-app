@@ -1,7 +1,7 @@
 # React-native-bookrec-app
 
-### The files is divided into two parts the backend and the frontend
-## Backend
+## The files is divided into two parts the backend and the frontend
+### Backend
 dependencies used include
 
 - Express
