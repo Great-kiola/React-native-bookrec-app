@@ -83,7 +83,7 @@ router.delete("/:id", protectRoute, async (req,res) => {
             try {
                 const publicId = book.image.split("/").pop().split(".")[0];
                 await cloudinary.uploader.destroy(publicId);
-                
+
             } catch (deleteError) {
                 console.log("Error deleting image from cloudinary", deleteError)
             }
@@ -97,6 +97,17 @@ router.delete("/:id", protectRoute, async (req,res) => {
         res.status(500).json({message: "Internal server error"});
 
     }
+})
+
+router.get("/user", protectRoute, async (req, res) => {
+    try {
+        const books = await Book.find({ user: req.user._id}).sort({ createdAt: -1 });
+        res.json(books);
+
+    } catch (error) {
+        console.log("Get user books error:", error.message);
+        res.status(500).json({message: "Server error" })
+    }    
 })
 
 export default router
