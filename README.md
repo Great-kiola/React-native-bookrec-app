@@ -28,4 +28,11 @@ npx create-expo@latest
 to run expo
 npx expo || npx expo start
 
+to use the simulator, you download xcode for ios.
+press i after running the command above
+
+```
+to install from expo you use
+```
+npx expo install <package-name>
 ```
