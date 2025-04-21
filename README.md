@@ -23,6 +23,9 @@ Expo: A set of many tools which goals is to facilitate the work of developers us
 
 ```
 to install
-npm expo
+npx create-expo@latest
+
+to run expo
+npx expo || npx expo start
 
 ```
