@@ -7,10 +7,8 @@ export default function SafeScreen({ children }) {
   const insets = useSafeAreaInsets();
 
   return (
-    <View>
-      <Text style={[styles.container, { paddingTop: insets.top }]}>
+    <View style={[styles.container, { paddingTop: insets.top }]}>
         {children}
-      </Text>
     </View>
   );
 }
