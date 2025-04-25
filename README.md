@@ -27,6 +27,10 @@ more info : [https://www.npmjs.com/package/@react-native-async-storage/async-sto
 npm i @react-native-async-storage/async-storage
 ```
 
+- **Cron Jobs** - Use to automate tasks
+```
+npm i cron
+```
 
 ### Frontend
 For the front end we would be using react native with expo as the framework
