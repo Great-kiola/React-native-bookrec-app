@@ -24,3 +24,7 @@ export default job;
 
 //? Example && Explanation
 //* 14 * * * * - Every 14 minutes
+//* 0 0 * * 0 - At midnight on every sunday
+//* 30 3 15 * * - At 3:30AM, on the 15th of every month
+//* 0 0 1 1 * - At midnight, on January 1st
+//* 0 * * * * - Every hour
