@@ -16,6 +16,8 @@ import { useRouter } from "expo-router";
 import styles from "../../assets/styles/create.styles";
 import { Ionicons } from "@expo/vector-icons";
 import COLORS from "../../constant/colors";
+import {useAuthStore} from "../../store/authStore"
+
 import * as ImagePicker from "expo-image-picker"
 import * as FileSystem from "expo-file-system"
 
@@ -28,6 +30,7 @@ export default function Create() {
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
+  const {token} = useAuthStore();
 
   const pickImage = async () => {
     try {
@@ -75,7 +78,25 @@ export default function Create() {
     }
   };
 
-  const handleSubmit = async () => {};
+  const handleSubmit = async () => {
+    if(!title || !caption || !imageBase64  ||!rating){
+      Alert.alert("Error", "Please fill in all fields");
+      return;
+    }
+
+    try {
+      setLoading(true)
+
+      const uriParts = image.split(".")
+      const fileType = uriParts[uriParts.length - 1];
+      const imageType = fileType ? `image/${fileType.toLoweCase()}` : "image/jpeg";
+
+      const imageDataUrl = `data:${imageType};base64,${imageBase64}`;
+     
+    } catch (error) {
+      
+    }
+  };
 
   const renderRatingPicker = () => {
     const stars = [];
