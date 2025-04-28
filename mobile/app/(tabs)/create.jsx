@@ -50,7 +50,6 @@ export default function Create() {
       }
 
       // Launch image library
-
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: "images",
         allowsEditing: true,
@@ -82,10 +81,10 @@ export default function Create() {
   };
 
   const handleSubmit = async () => {
-    // if(!title || !caption || !imageBase64  || !rating){
-    //   Alert.alert("Error", "Please fill in all fields");
-    //   return;
-    // }
+    if(!title || !caption || !imageBase64  || !rating){
+      Alert.alert("Error", "Please fill in all fields");
+      return;
+    }
 
     console.log("title", title, "caption", caption, "rating", rating);
 
