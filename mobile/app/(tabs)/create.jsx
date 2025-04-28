@@ -1,4 +1,4 @@
-import { View, Text, KeyboardAvoidingView, Platform, ScrollView, TextInput } from 'react-native'
+import { View, Text, KeyboardAvoidingView, Platform, ScrollView, TextInput, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { useRouter } from 'expo-router'
 import styles from "../../assets/styles/create.styles"
@@ -18,6 +18,22 @@ export default function Create() {
   const router = useRouter()
   const pickImage = async () => {}
   const handleSubmit = async () => {}
+
+  const renderRatingPicker = () => {
+    const stars = [];
+    for (let i = 1 ;i <= 5; i++){
+      stars.push(
+        <TouchableOpacity key ={i} onPress={() => setRating(i)} style={styles.starButton}>
+          <Ionicons 
+            name={i <= rating ? "star" : "star-outline"}
+            size={32}
+            color={i <= rating ? "#f4b400" : COLORS.textSecondary}
+          />
+        </TouchableOpacity>
+      )
+    }
+    return <View style={styles.ratingContainer}>{stars}</View>
+  }
   
   return (
     <KeyboardAvoidingView
@@ -55,6 +71,12 @@ export default function Create() {
                 />
 
               </View>
+            </View>
+
+            {/* RATING */}
+            <View style={styles.formGroup}>
+              <Text style={styles.label}>Your Rating</Text>
+              {renderRatingPicker()}
             </View>
           </View>
         </View>
