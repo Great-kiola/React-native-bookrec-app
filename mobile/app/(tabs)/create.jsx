@@ -16,10 +16,11 @@ import { useRouter } from "expo-router";
 import styles from "../../assets/styles/create.styles";
 import { Ionicons } from "@expo/vector-icons";
 import COLORS from "../../constant/colors";
-import {useAuthStore} from "../../store/authStore"
+import { useAuthStore } from "../../store/authStore";
+import { API_URL } from "../../constant/api.js";
 
-import * as ImagePicker from "expo-image-picker"
-import * as FileSystem from "expo-file-system"
+import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from "expo-file-system";
 
 export default function Create() {
   const [title, setTitle] = useState("");
@@ -30,7 +31,7 @@ export default function Create() {
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
-  const {token} = useAuthStore();
+  const { token } = useAuthStore();
 
   const pickImage = async () => {
     try {
@@ -39,7 +40,7 @@ export default function Create() {
         const { status } =
           await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-          if (status !== "granted") {
+        if (status !== "granted") {
           Alert.alert(
             "Permission Denied",
             "We need camera roll persmission to upload an image"
@@ -52,25 +53,27 @@ export default function Create() {
 
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: "images",
-        allowsEditing:true,
-        aspect:[4,3],
-        quality:0.5, // Lower image quality for smaller base64
-        base64:true
-      })
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 0.5, // Lower image quality for smaller base64
+        base64: true,
+      });
 
-      if (!result.canceled){
-        setImage(result.assets[0].uri)
-        
+      if (!result.canceled) {
+        setImage(result.assets[0].uri);
+
         // If Base64 is provided, use it
-        if(result.assets[0].base64){
+        if (result.assets[0].base64) {
           setImageBase64(result.assets[0].base64);
-        } else{
-          const base64 = await FileSystem.readAsStringAsync(result.assets[0].uri, {
-            encoding: FileSystem.EncodingType.Base64,  
-          })
+        } else {
+          const base64 = await FileSystem.readAsStringAsync(
+            result.assets[0].uri,
+            {
+              encoding: FileSystem.EncodingType.Base64,
+            }
+          );
           setImageBase64(base64);
         }
-
       }
     } catch (error) {
       console.log("Error picking image:", error);
@@ -79,22 +82,61 @@ export default function Create() {
   };
 
   const handleSubmit = async () => {
-    if(!title || !caption || !imageBase64  ||!rating){
-      Alert.alert("Error", "Please fill in all fields");
-      return;
-    }
+    // if(!title || !caption || !imageBase64  || !rating){
+    //   Alert.alert("Error", "Please fill in all fields");
+    //   return;
+    // }
+
+    console.log("title", title, "caption", caption, "rating", rating);
 
     try {
-      setLoading(true)
+      setLoading(true);
 
-      const uriParts = image.split(".")
+      const uriParts = image.split(".");
       const fileType = uriParts[uriParts.length - 1];
-      const imageType = fileType ? `image/${fileType.toLoweCase()}` : "image/jpeg";
+      const imageType = fileType
+        ? `image/${fileType.toLowerCase()}`
+        : "image/jpeg";
 
       const imageDataUrl = `data:${imageType};base64,${imageBase64}`;
-     
+
+      const response = await fetch(`${API_URL}/books`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title,
+          caption,
+          rating: rating.toString(),
+          image: imageDataUrl,
+        }),
+      });
+
+      let data;
+      try {
+        data = await response.json();
+      } catch (error) {
+        console.error("Failed to parse JSON:", error);
+        throw new Error("Invalid server response");
+      }
+
+      if (!response.ok) throw new Error(data.message || "Something went wrong");
+
+      Alert.alert("Success", "Your book recommendation has been posted!");
+      setTitle("");
+      setCaption("");
+      setRating(3);
+      setImage(null);
+      setImageBase64(null);
+
+      router.push("/");
     } catch (error) {
-      
+      console.log("Error creating post");
+      Alert.alert("Error", error.message || "Something went wrong");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -185,7 +227,7 @@ export default function Create() {
             {/* CAPTION */}
             <View>
               <Text style={styles.formGroup}>Caption</Text>
-              <TextInput 
+              <TextInput
                 style={styles.textArea}
                 placeholder="Write your review or thoughts about this book..."
                 placeholderTextColor={COLORS.placeholderText}
@@ -193,23 +235,25 @@ export default function Create() {
                 onChangeText={setCaption}
                 multiline
               />
-
             </View>
 
             {/* BUTTON */}
-            <TouchableOpacity style={styles.button} onPress={handleSubmit} disabled={loading}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={handleSubmit}
+              disabled={loading}
+            >
               {loading ? (
                 <ActivityIndicator color={COLORS.white} />
-
               ) : (
                 <>
-                  <Ionicons 
-                  name="cloud-upload-outline"
-                  size={20}
-                  color={COLORS.white}
-                  style={styles.buttonIcon}
+                  <Ionicons
+                    name="cloud-upload-outline"
+                    size={20}
+                    color={COLORS.white}
+                    style={styles.buttonIcon}
                   />
-                  
+
                   <Text style={styles.buttonText}>Share</Text>
                 </>
               )}
