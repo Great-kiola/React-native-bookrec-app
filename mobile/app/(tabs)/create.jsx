@@ -81,10 +81,10 @@ export default function Create() {
   };
 
   const handleSubmit = async () => {
-    if(!title || !caption || !imageBase64  || !rating){
-      Alert.alert("Error", "Please fill in all fields");
-      return;
-    }
+    // if(!title || !caption || !imageBase64  || !rating){
+    //   Alert.alert("Error", "Please fill in all fields");
+    //   return;
+    // }
 
     console.log("title", title, "caption", caption, "rating", rating);
 
@@ -117,7 +117,7 @@ export default function Create() {
       try {
         data = await response.json();
       } catch (error) {
-        console.error("Failed to parse JSON:", error);
+        console.log("Failed to parse JSON: ", error);
         throw new Error("Invalid server response");
       }
 
