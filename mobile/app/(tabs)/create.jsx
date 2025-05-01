@@ -81,12 +81,10 @@ export default function Create() {
   };
 
   const handleSubmit = async () => {
-    // if(!title || !caption || !imageBase64  || !rating){
-    //   Alert.alert("Error", "Please fill in all fields");
-    //   return;
-    // }
-
-    console.log("title", title, "caption", caption, "rating", rating);
+    if(!title || !caption || !imageBase64  || !rating){
+      Alert.alert("Error", "Please fill in all fields");
+      return;
+    }
 
     try {
       setLoading(true);
@@ -99,7 +97,7 @@ export default function Create() {
 
       const imageDataUrl = `data:${imageType};base64,${imageBase64}`;
 
-      const response = await fetch(`${API_URL}/book`, {
+      const response = await fetch(`${API_URL}/books`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -193,6 +191,8 @@ export default function Create() {
                   style={styles.input}
                   placeholder="Enter book title"
                   placeholderTextColor={COLORS.placeholderText}
+                  value={title}
+                  onChangeText={setTitle}
                 />
               </View>
             </View>
