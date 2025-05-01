@@ -17,7 +17,7 @@ import styles from "../../assets/styles/create.styles";
 import { Ionicons } from "@expo/vector-icons";
 import COLORS from "../../constant/colors";
 import { useAuthStore } from "../../store/authStore";
-import { API_URL } from "../../constant/api.js";
+import { API_URL } from "../../constant/api";
 
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
@@ -99,7 +99,7 @@ export default function Create() {
 
       const imageDataUrl = `data:${imageType};base64,${imageBase64}`;
 
-      const response = await fetch(`${API_URL}/books`, {
+      const response = await fetch(`${API_URL}/book`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -133,6 +133,7 @@ export default function Create() {
       router.push("/");
     } catch (error) {
       console.log("Error creating post");
+      console.log(error)
       Alert.alert("Error", error.message || "Something went wrong");
     } finally {
       setLoading(false);
