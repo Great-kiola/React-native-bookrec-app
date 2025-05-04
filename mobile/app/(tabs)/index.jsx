@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native'
+import { View, Text, TouchableOpacity, FlatList, ActivityIndicator, RefreshControl } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Image } from 'expo-image';
 import { useAuthStore } from '../../store/authStore'
@@ -7,6 +7,9 @@ import { Ionicons } from '@expo/vector-icons';
 import styles from "../../assets/styles/home.styles";
 import COLORS from '../../constant/colors';
 import {formatPublishDate, } from "../../lib/utils"
+import Loader from '../../components/Loader';
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 export default function Home() {
 
@@ -45,8 +48,11 @@ export default function Home() {
     } catch (error) {
       console.log("Error fetching books", error);
     } finally {
-      if (refresh) setRefreshing(false)
-      else setLoading(false);
+      if (refresh) {
+        await sleep(800);
+        setRefreshing(false)
+      }
+        else setLoading(false);
     }
   }
 
@@ -87,7 +93,7 @@ export default function Home() {
     for(let i = 1; i <= 5; i++){
       stars.push(
         <Ionicons 
-          key ={1}
+          key ={i}
           name = {i <= rating ? "star" : "star-outline"}
           size={16}
           color={i <= rating ? "#f4b400" : COLORS.textSecondary}
@@ -98,10 +104,7 @@ export default function Home() {
     return stars;
   }
 
-
-
-
-  console.log(books)
+  if(loading) return <Loader />
 
   return (
     <View style={styles.container}>
@@ -134,6 +137,15 @@ export default function Home() {
             <Text style={styles.emptyText}>No recommendations yet</Text>
             <Text style={styles.emptySubtext}>Be the first to share a book!</Text>
           </View>
+        }
+
+        refreshControl={
+          <RefreshControl 
+            refreshing={refreshing}
+            onRefresh={() => fetchBooks(1, true)}
+            colors={[COLORS.primary]}
+            tintColor={COLORS.primary}
+          />
         }
       />
     </View>
