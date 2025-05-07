@@ -53,3 +53,4 @@ npx expo install <package-name>
 ```
 
 
+commit notes
