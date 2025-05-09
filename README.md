@@ -51,9 +51,3 @@ to install from expo you use
 ```
 npx expo install <package-name>
 ```
-
-
-commit notes
-Another commit note
-this is how i intend to do the commits everytime until i have enough
-time to complete the tutorial and start something, im almost done with the application anyway
