@@ -57,8 +57,6 @@ export default function Profile() {
 
     const data = await response.json();
 
-    console.log("Response status:", response.status);
-    console.log("Response data:", data);
 
     if (!response.ok) {
       throw new Error(data.message || "Failed to fetch user books");

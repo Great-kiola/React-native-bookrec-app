@@ -2,6 +2,7 @@ import { SplashScreen, Stack, useRouter, useSegments } from "expo-router";
 import SafeScreen from "../components/SafeScreen"
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
+import {useFonts} from "expo-font"
 
 import { useAuthStore } from "../store/authStore"
 import { useEffect } from "react";
