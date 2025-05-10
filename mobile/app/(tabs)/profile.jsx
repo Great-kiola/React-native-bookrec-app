@@ -13,7 +13,7 @@ export default function Profile() {
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
-  const token = useAuthStore();
+  const {token} = useAuthStore();
 
   const router = useRouter();
 
@@ -25,8 +25,10 @@ export default function Profile() {
       });
 
       const data = (await response).json();
-      if (!response.ok)
-      throw new Error(data.message || "Failed to fetch user books");
+      if (!response.ok){
+        throw new Error(data.message || "Failed to fetch user books");
+      }
+
       setBooks(data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -44,7 +46,7 @@ export default function Profile() {
   }, []);
 
   return (
-    <View style= {styles.container}>
+    <View style={styles.container}>
       <ProfileHeader/>
       <LogoutButton/>
       
